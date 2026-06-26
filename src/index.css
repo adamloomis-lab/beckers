@@ -1,0 +1,365 @@
+/* Fraunces: a warm, high-contrast old-style display serif with optical sizing
+   + soft/wonk axes — artisanal and editorial (matches the Cambria build). */
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource-variable/fraunces/full-italic.css';
+@import 'tailwindcss';
+
+@theme {
+  /* Fraunces: high-contrast editorial display serif. Spectral: a refined
+     editorial text serif for readable body prose. Hanken Grotesk: a clean
+     humanist sans reserved for nav, buttons, and small tracked labels. */
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-body: 'Spectral', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+
+  /* Blush-cream page base */
+  --color-paper: #fbf4f0;
+  --color-paper-2: #f4ebe4;
+  --color-paper-3: #efe4dc;
+  --color-card: #ffffff;
+
+  /* Warm near-black plum type on the cream base. Secondary tones are kept
+     deliberately dark for readable contrast (older-leaning clientele). */
+  --color-ink: #2a1d27;
+  --color-ink-soft: #564751;
+  --color-ink-faint: #6a5c64;
+
+  /* Deep aubergine / plum, used for CTA bands, footer & dark surfaces */
+  --color-steel: #341a2e;
+  --color-steel-2: #3d2037;
+  --color-steel-3: #472941;
+  --color-steel-4: #50324a;
+
+  /* Plum, primary accent / CTA (pulled from the brand "Breakroom" purple) */
+  --color-brick: #4a2440;
+  --color-brick-dark: #341a2e;
+  --color-brick-light: #8a5778;
+  --color-on-brick: #fbf1f7;
+
+  /* Gold, the warm secondary accent (eyebrows, icons, star dividers) */
+  --color-gold: #cf9a3c;
+  --color-gold-light: #e0b25c;
+
+  /* Eyebrow text on light backgrounds — darkened to pass 4.5:1 on #fbf4f0 */
+  --color-eyebrow: #8a5f00;
+
+  /* Cream type on plum / dark surfaces */
+  --color-cream: #fbf1f6;
+  --color-cream-dim: #d9c6d2;
+  --color-cream-faint: #ab93a4;
+
+  /* Lines / outlines on the cream base */
+  --color-line: #e7d8cf;
+  --color-line-dark: #d8c6bb;
+
+  --color-error: #b4452f;
+
+  /* Type scale — Playfair display / Hanken body */
+  --text-display-xl: 84px;
+  --text-display-xl--line-height: 1.02;
+  --text-display-xl--letter-spacing: -0.01em;
+  --text-display-xl--font-weight: 700;
+  --text-display-lg: 58px;
+  --text-display-lg--line-height: 1.04;
+  --text-display-lg--font-weight: 700;
+  --text-display-lg-mobile: 38px;
+  --text-display-lg-mobile--line-height: 1.08;
+  --text-display-lg-mobile--font-weight: 700;
+  --text-headline-lg: 34px;
+  --text-headline-lg--line-height: 1.14;
+  --text-headline-lg--font-weight: 700;
+  --text-headline-md: 28px;
+  --text-headline-md--line-height: 1.18;
+  --text-headline-md--font-weight: 700;
+  --text-headline-sm: 21px;
+  --text-headline-sm--line-height: 1.3;
+  --text-headline-sm--font-weight: 600;
+  --text-body-lg: 21px;
+  --text-body-lg--line-height: 1.72;
+  --text-body-md: 18px;
+  --text-body-md--line-height: 1.75;
+  --text-label-lg: 12px;
+  --text-label-lg--line-height: 1.2;
+  --text-label-lg--letter-spacing: 0.22em;
+  --text-label-lg--font-weight: 600;
+  --text-label-sm: 11px;
+  --text-label-sm--line-height: 1.2;
+  --text-label-sm--letter-spacing: 0.24em;
+  --text-label-sm--font-weight: 600;
+
+  --spacing-section-gap: 104px;
+  --spacing-margin-mobile: 20px;
+  --spacing-margin-desktop: 56px;
+
+  --radius-DEFAULT: 6px;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Fraunces tuned for display: full optical size + soft terminals for warmth,
+     a slight wonk for character. */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 144, 'SOFT' 30, 'WONK' 1;
+  }
+  a, button:not(:disabled), [role='button'] {
+    cursor: pointer;
+  }
+  ::selection {
+    background-color: var(--color-brick);
+    color: var(--color-on-brick);
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 80rem;
+    padding-inline: var(--spacing-margin-mobile);
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: var(--spacing-margin-desktop);
+    }
+  }
+
+  /* Eyebrow — uppercase tracked caption above a heading.
+     Uses --color-eyebrow (dark amber, 4.5:1+ on light paper) for text;
+     gold is kept for decorative icon/divider contexts. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--text-label-lg);
+    line-height: var(--text-label-lg--line-height);
+    letter-spacing: var(--text-label-lg--letter-spacing);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-eyebrow);
+  }
+
+  /* Star divider — centered ★ flanked by hairlines, under section headings */
+  .star-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: var(--color-gold);
+  }
+  .star-divider::before,
+  .star-divider::after {
+    content: '';
+    width: 44px;
+    height: 1px;
+    background: var(--color-line-dark);
+  }
+
+  /* Thin accent rule under left-aligned headings */
+  .brick-rule {
+    display: inline-block;
+    width: 64px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-gold), transparent);
+  }
+
+  /* Check / bullet for feature lists */
+  .check-list li {
+    position: relative;
+    padding-left: 1.75rem;
+  }
+  .check-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 9999px;
+    background-color: var(--color-gold);
+    box-shadow: 0 0 0 3px rgba(207, 154, 60, 0.2);
+  }
+
+  /* Deep-plum panel for CTA bands / footer accents */
+  .steel-panel {
+    background-color: var(--color-steel);
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 22%),
+      linear-gradient(180deg, var(--color-steel-2), var(--color-steel));
+  }
+
+  .steel-divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-line-dark) 12%,
+      var(--color-line-dark) 88%,
+      transparent
+    );
+  }
+
+  /* White content card with warm hairline border */
+  .surface-card {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  /* Legal / policy page prose */
+  .legal-prose h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--color-ink);
+    margin-top: 2.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-prose h2:first-child {
+    margin-top: 0;
+  }
+  .legal-prose a {
+    color: var(--color-brick);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-prose ul {
+    list-style: disc;
+    padding-left: 1.4rem;
+  }
+  .legal-prose ul li {
+    margin-top: 0.4rem;
+  }
+  .legal-prose strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+}
+
+/* Soft vignette so hero text stays legible over imagery */
+.smoke-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(38, 20, 33, 0.55) 0%,
+    rgba(38, 20, 33, 0.42) 45%,
+    rgba(38, 20, 33, 0.72) 100%
+  );
+}
+
+/* Branded plum color-grade: multiplies a plum tint into the hero photos so
+   they read intentional and on-brand instead of like raw snapshots. */
+.hero-tint {
+  background-color: #4a2440;
+  mix-blend-mode: multiply;
+  opacity: 0.44;
+}
+
+/* Cinematic scrim stack over the graded photo: edge vignette + a left scrim
+   (so the headline always has contrast) + a bottom scrim into the page. */
+.hero-grade {
+  background:
+    radial-gradient(135% 105% at 28% 36%, transparent 0%, rgba(18, 8, 15, 0.5) 100%),
+    linear-gradient(90deg, rgba(31, 14, 26, 0.92) 0%, rgba(31, 14, 26, 0.45) 44%, rgba(31, 14, 26, 0.04) 100%),
+    linear-gradient(0deg, rgba(27, 11, 22, 0.94) 0%, rgba(27, 11, 22, 0.22) 40%, transparent 70%);
+}
+
+/* Thin gold hairline that draws beside the hero eyebrow */
+.hero-rule {
+  display: inline-block;
+  height: 1px;
+  width: 2.5rem;
+  background: linear-gradient(90deg, var(--color-gold-light), transparent);
+  vertical-align: middle;
+}
+
+/* Slow Ken Burns drift on hero / section media */
+.kenburns {
+  animation: bk-kenburns 30s ease-in-out infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+}
+@keyframes bk-kenburns {
+  from { transform: scale(1.05) translate3d(0, 0, 0); }
+  to { transform: scale(1.13) translate3d(0, -1.5%, 0); }
+}
+
+/* Parallax: useParallax writes --p (0..1 viewport progress); element drifts. */
+.parallax {
+  transform: translate3d(0, calc((var(--p, 0.5) - 0.5) * 2 * var(--p-amt, 28px)), 0);
+  will-change: transform;
+}
+
+/* ---- Scroll-reveal + entrance motion ---------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: bk-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .rise-1 { animation-delay: 0.08s; }
+  .rise-2 { animation-delay: 0.2s; }
+  .rise-3 { animation-delay: 0.32s; }
+  .rise-4 { animation-delay: 0.44s; }
+  .rise-5 { animation-delay: 0.56s; }
+  @keyframes bk-rise {
+    from { opacity: 0; transform: translateY(22px); filter: blur(3px); }
+    to { opacity: 1; transform: none; filter: blur(0); }
+  }
+
+  .reveal-ready .reveal,
+  .reveal-ready .reveal-group > * {
+    opacity: 0;
+    transform: translateY(26px) scale(0.985);
+    filter: blur(3px);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform, filter;
+  }
+  .reveal-ready .reveal.is-visible,
+  .reveal-ready .reveal-group.is-visible > * {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+  .reveal-ready .reveal-group.is-visible > *:nth-child(2) { transition-delay: 0.1s; }
+  .reveal-ready .reveal-group.is-visible > *:nth-child(3) { transition-delay: 0.2s; }
+  .reveal-ready .reveal-group.is-visible > *:nth-child(4) { transition-delay: 0.3s; }
+  .reveal-ready .reveal-group.is-visible > *:nth-child(5) { transition-delay: 0.4s; }
+  .reveal-ready .reveal-group.is-visible > *:nth-child(6) { transition-delay: 0.5s; }
+
+  .brick-rule {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+  }
+  .reveal-ready .reveal.is-visible .brick-rule,
+  .reveal-ready .brick-rule.is-visible {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kenburns, .parallax { animation: none; transform: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* WCAG 2.4.7 keyboard focus */
+*:focus-visible {
+  outline: 2px solid var(--color-brick);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
