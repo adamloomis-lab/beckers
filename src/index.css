@@ -363,6 +363,19 @@
     0% { transform: translateX(-120%) skewX(-12deg); }
     100% { transform: translateX(420%) skewX(-12deg); }
   }
+
+  /* ---- Floating CTA glow (mobile capsule + desktop pill) --------------- */
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 10px 30px -6px rgba(74, 36, 64, 0.55), 0 0 0 0 rgba(207, 154, 60, 0); }
+    50% { box-shadow: 0 14px 38px -6px rgba(74, 36, 64, 0.7), 0 0 22px 3px rgba(207, 154, 60, 0.45); }
+  }
+  .animate-glow-pulse {
+    animation: glow-pulse 2.6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-glow-pulse { animation: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
