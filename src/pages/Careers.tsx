@@ -1,10 +1,15 @@
 import { useState, useRef } from 'react'
-import type { FormEvent } from 'react'
-import { Phone, Clock, Utensils, TrendingUp, PartyPopper, Check, ChevronDown } from 'lucide-react'
+import type { ChangeEvent, FormEvent } from 'react'
+import {
+  Phone, Clock, Utensils, TrendingUp, PartyPopper, ArrowRight, Loader2, Send,
+  UtensilsCrossed, ChefHat, Droplets, ConciergeBell, HelpCircle,
+  type LucideIcon,
+} from 'lucide-react'
 import { company, openRoles, perks, careersHero } from '../data/site'
 import PageHero from '../components/PageHero'
 import SectionHeading from '../components/SectionHeading'
 import Button from '../components/Button'
+import { FloatField, IconCardGroup, SuccessCheck } from '../components/FluidField'
 
 const encode = (data: Record<string, string>) =>
   Object.keys(data)
@@ -13,38 +18,52 @@ const encode = (data: Record<string, string>) =>
 
 const perkIcons = [Clock, Utensils, PartyPopper, TrendingUp]
 
+// Position icon cards. Keep `value` identical to the old <select> so Netlify
+// receives the same data.
+const POSITION_OPTIONS: { value: string; label: string; icon: LucideIcon }[] = [
+  { value: 'Server', label: 'Server', icon: UtensilsCrossed },
+  { value: 'Line Cook', label: 'Line cook', icon: ChefHat },
+  { value: 'Dishwasher / Prep', label: 'Dish / prep', icon: Droplets },
+  { value: 'Host', label: 'Host', icon: ConciergeBell },
+  { value: 'Any / Not Sure', label: 'Any / not sure', icon: HelpCircle },
+]
+
 export default function Careers() {
+  const [form, setForm] = useState({
+    name: '', email: '', phone: '', position: 'Server', message: '',
+  })
   const [sent, setSent] = useState(false)
   const [error, setError] = useState(false)
+  const [sending, setSending] = useState(false)
   const [firstName, setFirstName] = useState('')
   const formCardRef = useRef<HTMLDivElement>(null)
+
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((p) => ({ ...p, [e.target.name]: e.target.value }))
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(false)
-    const form = e.currentTarget
-    const data = Object.fromEntries(new FormData(form) as never) as Record<string, string>
+    setSending(true)
     try {
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'application', ...data }),
+        body: encode({ 'form-name': 'application', ...form }),
       })
       if (!res.ok) throw new Error()
-      setFirstName((data.name || '').trim().split(/\s+/)[0] || '')
+      setFirstName(form.name.trim().split(/\s+/)[0] || '')
       setSent(true)
-      form.reset()
+      setForm({ name: '', email: '', phone: '', position: 'Server', message: '' })
       requestAnimationFrame(() =>
         formCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }),
       )
     } catch {
       setError(true)
+    } finally {
+      setSending(false)
     }
   }
-
-  const field =
-    'w-full rounded border border-line bg-card px-4 py-3.5 text-body-md text-ink placeholder:text-ink-faint focus:border-brick focus-visible:outline-none focus:ring-1 focus:ring-brick/40'
-  const label = 'block text-[12px] font-sans font-semibold uppercase tracking-[0.12em] text-ink-soft mb-2'
 
   return (
     <>
@@ -121,19 +140,32 @@ export default function Careers() {
             </div>
 
             {sent ? (
-              <div className="mt-8 flex flex-col items-center gap-4 rounded-lg border border-brick/40 bg-brick/5 px-6 py-12 text-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brick text-on-brick">
-                  <Check size={28} />
+              <div
+                className="mt-8 flex flex-col items-center gap-4 rounded-lg border border-brick/30 bg-brick/5 px-6 py-12 text-center"
+                style={{ animation: 'rise 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
+              >
+                <span
+                  className="flex h-20 w-20 items-center justify-center"
+                  style={{ animation: 'pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both' }}
+                >
+                  <SuccessCheck />
                 </span>
                 <p className="font-display text-headline-md text-ink">
-                  Welcome to the family{firstName ? `, ${firstName}` : ''}!
+                  {firstName ? `Thank You, ${firstName}!` : 'Thank You!'}
                 </p>
                 <p className="max-w-md text-body-md text-ink-soft">
                   Thanks for wanting to join the Becker&rsquo;s crew. We got your application and
                   we&rsquo;ll be in touch real soon. Honest work, good tips, and a team that has your
                   back — we can&rsquo;t wait to meet you. Want to say hi sooner? Stop in and ask for a
-                  manager, or call {company.phone}.
+                  manager, or give us a call.
                 </p>
+                <a
+                  href={company.phoneHref}
+                  className="group relative mt-2 inline-flex items-center gap-2 overflow-hidden rounded bg-brick px-7 py-3.5 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-on-brick transition-colors hover:bg-brick-dark"
+                >
+                  <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-cream/30 blur-md group-hover:[animation:sheen_0.9s_ease]" />
+                  <Phone size={15} /> {company.phone}
+                </a>
               </div>
             ) : (
               <form
@@ -151,36 +183,21 @@ export default function Careers() {
                   </label>
                 </p>
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label className={label} htmlFor="ap-name">Full Name</label>
-                    <input id="ap-name" className={field} type="text" name="name" placeholder="Jane Doe" required />
-                  </div>
-                  <div>
-                    <label className={label} htmlFor="ap-email">Email Address</label>
-                    <input id="ap-email" className={field} type="email" name="email" placeholder="you@example.com" required />
-                  </div>
-                  <div>
-                    <label className={label} htmlFor="ap-phone">Phone Number</label>
-                    <input id="ap-phone" className={field} type="tel" name="phone" placeholder="(440) 000-0000" />
-                  </div>
-                  <div>
-                    <label className={label} htmlFor="ap-position">Interested Position</label>
-                    <div className="relative">
-                      <select id="ap-position" name="position" defaultValue="Server" className={`${field} appearance-none pr-11`}>
-                        <option>Server</option>
-                        <option>Line Cook</option>
-                        <option>Dishwasher / Prep</option>
-                        <option>Host</option>
-                        <option>Any / Not Sure</option>
-                      </select>
-                      <ChevronDown size={18} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-faint" />
-                    </div>
-                  </div>
+                  <FloatField idPrefix="ap" name="name" label="Full Name" value={form.name} onChange={onChange} required />
+                  <FloatField idPrefix="ap" name="email" label="Email Address" type="email" value={form.email} onChange={onChange} required />
                 </div>
-                <div>
-                  <label className={label} htmlFor="ap-message">Tell us why you'd be a great fit</label>
-                  <textarea id="ap-message" className={field} name="message" rows={5} placeholder="I love homestyle cooking and making people smile…" />
-                </div>
+                <FloatField idPrefix="ap" name="phone" label="Phone Number" type="tel" value={form.phone} onChange={onChange} />
+
+                <IconCardGroup
+                  legend="Interested position"
+                  options={POSITION_OPTIONS}
+                  value={form.position}
+                  onChange={(v) => setForm((p) => ({ ...p, position: v }))}
+                  cols="grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+                />
+
+                <FloatField idPrefix="ap" name="message" label="Tell us why you'd be a great fit" value={form.message} onChange={onChange} textarea rows={5} />
+
                 {error && (
                   <p className="text-body-md text-error">
                     Oops, something went wrong sending your application. Please try again, or call {company.phone}.
@@ -188,9 +205,15 @@ export default function Careers() {
                 )}
                 <button
                   type="submit"
-                  className="w-full rounded bg-brick px-8 py-4 font-sans text-[13px] font-sans font-semibold uppercase tracking-[0.14em] text-on-brick transition-colors hover:bg-brick-dark"
+                  disabled={sending}
+                  className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded bg-brick px-8 py-4 font-sans text-[13px] font-semibold uppercase tracking-[0.14em] text-on-brick transition-colors hover:bg-brick-dark disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Submit Application
+                  <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-cream/30 blur-md group-hover:[animation:sheen_0.9s_ease]" />
+                  {sending ? (
+                    <><Loader2 size={16} className="animate-spin" /> Submitting</>
+                  ) : (
+                    <><Send size={14} /> Submit Application <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" /></>
+                  )}
                 </button>
               </form>
             )}

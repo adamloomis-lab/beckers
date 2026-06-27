@@ -1,47 +1,66 @@
 import { useState, useRef } from 'react'
-import type { FormEvent } from 'react'
-import { MapPin, Phone, Clock, Facebook, Star, Check, ChevronDown } from 'lucide-react'
+import type { ChangeEvent, FormEvent } from 'react'
+import {
+  MapPin, Phone, Clock, Facebook, Star, ArrowRight, Loader2, Send,
+  HelpCircle, UtensilsCrossed, DoorOpen, MessageCircle, Briefcase, ArrowUpRight,
+  type LucideIcon,
+} from 'lucide-react'
+import { Link } from 'wouter'
 import { company, contactHero } from '../data/site'
 import HoursList from '../components/HoursList'
 import PageHero from '../components/PageHero'
+import { FloatField, SuccessCheck } from '../components/FluidField'
 
 const encode = (data: Record<string, string>) =>
   Object.keys(data)
     .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
     .join('&')
 
+// Subject icon cards. Keep `value` identical to the old <select> so Netlify
+// receives the same data.
+const SUBJECT_OPTIONS: { value: string; label: string; icon: LucideIcon }[] = [
+  { value: 'General', label: 'General', icon: HelpCircle },
+  { value: 'Catering', label: 'Catering', icon: UtensilsCrossed },
+  { value: 'Private Room', label: 'Private room', icon: DoorOpen },
+  { value: 'Other', label: 'Something else', icon: MessageCircle },
+]
+
 export default function Contact() {
+  const [form, setForm] = useState({
+    firstName: '', lastName: '', email: '', phone: '', subject: 'General', message: '',
+  })
   const [sent, setSent] = useState(false)
   const [error, setError] = useState(false)
+  const [sending, setSending] = useState(false)
   const [firstName, setFirstName] = useState('')
   const formCardRef = useRef<HTMLDivElement>(null)
+
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((p) => ({ ...p, [e.target.name]: e.target.value }))
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(false)
-    const form = e.currentTarget
-    const data = Object.fromEntries(new FormData(form) as never) as Record<string, string>
+    setSending(true)
     try {
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', ...data }),
+        body: encode({ 'form-name': 'contact', ...form }),
       })
       if (!res.ok) throw new Error()
-      setFirstName((data.firstName || '').trim() || '')
+      setFirstName(form.firstName.trim() || '')
       setSent(true)
-      form.reset()
+      setForm({ firstName: '', lastName: '', email: '', phone: '', subject: 'General', message: '' })
       requestAnimationFrame(() =>
         formCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }),
       )
     } catch {
       setError(true)
+    } finally {
+      setSending(false)
     }
   }
-
-  const field =
-    'w-full rounded border border-line bg-card px-4 py-3 text-body-md text-ink placeholder:text-ink-faint focus:border-brick focus-visible:outline-none focus:ring-1 focus:ring-brick/40'
-  const label = 'block text-[12px] font-sans font-semibold uppercase tracking-[0.12em] text-ink-soft mb-2'
 
   return (
     <>
@@ -128,19 +147,31 @@ export default function Contact() {
               <h2 className="font-display text-headline-md text-ink">Send a Message</h2>
 
               {sent ? (
-                <div className="mt-8 flex flex-col items-center gap-4 rounded-lg border border-brick/40 bg-brick/5 px-6 py-12 text-center">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brick text-on-brick">
-                    <Check size={28} />
+                <div
+                  className="mt-8 flex flex-col items-center gap-4 rounded-lg border border-brick/30 bg-brick/5 px-6 py-12 text-center"
+                  style={{ animation: 'rise 0.7s cubic-bezier(0.16,1,0.3,1) both' }}
+                >
+                  <span
+                    className="flex h-20 w-20 items-center justify-center"
+                    style={{ animation: 'pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both' }}
+                  >
+                    <SuccessCheck />
                   </span>
                   <p className="font-display text-headline-md text-ink">
-                    Thanks for reaching out{firstName ? `, ${firstName}` : ''}!
+                    {firstName ? `Thank You, ${firstName}!` : 'Thank You!'}
                   </p>
-                  <p className="text-body-md text-ink-soft">
+                  <p className="max-w-md text-body-md text-ink-soft">
                     Your message just landed in our inbox here at Becker&rsquo;s — and a real person
                     will read it, not a robot. We&rsquo;ll get back to you the same day, most days.
-                    Can&rsquo;t wait? Give us a ring at {company.phone}; there&rsquo;s almost always
-                    someone by the phone. See you soon!
+                    Can&rsquo;t wait? Give us a ring; there&rsquo;s almost always someone by the phone.
                   </p>
+                  <a
+                    href={company.phoneHref}
+                    className="group relative mt-2 inline-flex items-center gap-2 overflow-hidden rounded bg-brick px-7 py-3.5 font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-on-brick transition-colors hover:bg-brick-dark"
+                  >
+                    <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-cream/30 blur-md group-hover:[animation:sheen_0.9s_ease]" />
+                    <Phone size={15} /> {company.phone}
+                  </a>
                 </div>
               ) : (
                 <form
@@ -158,40 +189,55 @@ export default function Contact() {
                     </label>
                   </p>
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <div>
-                      <label className={label} htmlFor="ct-first">First Name</label>
-                      <input id="ct-first" className={field} type="text" name="firstName" required />
+                    <FloatField idPrefix="ct" name="firstName" label="First Name" value={form.firstName} onChange={onChange} required />
+                    <FloatField idPrefix="ct" name="lastName" label="Last Name" value={form.lastName} onChange={onChange} />
+                  </div>
+                  <FloatField idPrefix="ct" name="email" label="Email Address" type="email" value={form.email} onChange={onChange} required />
+                  <FloatField idPrefix="ct" name="phone" label="Phone" type="tel" value={form.phone} onChange={onChange} />
+
+                  {/* Subject as single-select icon cards + a "Join our team" cross-link */}
+                  <fieldset>
+                    <legend className="mb-3 block font-sans text-ink-soft text-[12px] font-semibold uppercase tracking-[0.12em]">
+                      What's this about?
+                    </legend>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      {SUBJECT_OPTIONS.map((o) => {
+                        const active = form.subject === o.value
+                        const Icon = o.icon
+                        return (
+                          <button
+                            key={o.value}
+                            type="button"
+                            aria-pressed={active}
+                            onClick={() => setForm((p) => ({ ...p, subject: active ? '' : o.value }))}
+                            className={`flex flex-col items-start gap-2 rounded-lg border px-3.5 py-3.5 text-left font-sans text-sm transition-all duration-200 active:scale-[0.98] ${
+                              active
+                                ? 'border-brick bg-brick text-on-brick shadow-[0_10px_24px_-12px_rgba(74,36,64,0.7)]'
+                                : 'border-line bg-paper text-ink hover:border-brick hover:bg-card'
+                            }`}
+                          >
+                            <Icon size={22} className={active ? 'text-on-brick' : 'text-brick'} strokeWidth={1.75} />
+                            <span className="font-semibold leading-tight">{o.label}</span>
+                          </button>
+                        )
+                      })}
+                      {/* Careers card: routes to the job application form instead of setting a subject */}
+                      <Link
+                        href="/careers"
+                        aria-label="Join our team, opens the job application page"
+                        className="group flex flex-col items-start gap-2 rounded-lg border border-dashed border-brick/40 bg-paper px-3.5 py-3.5 text-left font-sans text-sm text-ink transition-all duration-200 hover:border-solid hover:border-brick hover:bg-card active:scale-[0.98]"
+                      >
+                        <span className="flex w-full items-center justify-between">
+                          <Briefcase size={22} className="text-brick" strokeWidth={1.75} />
+                          <ArrowUpRight size={16} className="text-ink-faint transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brick" />
+                        </span>
+                        <span className="font-semibold leading-tight">Join our team</span>
+                      </Link>
                     </div>
-                    <div>
-                      <label className={label} htmlFor="ct-last">Last Name</label>
-                      <input id="ct-last" className={field} type="text" name="lastName" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={label} htmlFor="ct-email">Email Address</label>
-                    <input id="ct-email" className={field} type="email" name="email" required />
-                  </div>
-                  <div>
-                    <label className={label} htmlFor="ct-phone">Phone</label>
-                    <input id="ct-phone" className={field} type="tel" name="phone" />
-                  </div>
-                  <div>
-                    <label className={label} htmlFor="ct-subject">What's This About?</label>
-                    <div className="relative">
-                      <select id="ct-subject" name="subject" defaultValue="General" className={`${field} appearance-none pr-11`}>
-                        <option>General</option>
-                        <option>Catering</option>
-                        <option>Private Room</option>
-                        <option>Employment</option>
-                        <option>Other</option>
-                      </select>
-                      <ChevronDown size={18} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink-faint" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={label} htmlFor="ct-message">Message</label>
-                    <textarea id="ct-message" className={field} name="message" rows={5} required />
-                  </div>
+                  </fieldset>
+
+                  <FloatField idPrefix="ct" name="message" label="Message" value={form.message} onChange={onChange} required textarea rows={5} />
+
                   {error && (
                     <p className="text-body-md text-error">
                       Oops, there was an error sending your message. Please try again, or call {company.phone}.
@@ -199,9 +245,15 @@ export default function Contact() {
                   )}
                   <button
                     type="submit"
-                    className="w-full rounded bg-brick px-8 py-4 font-sans text-[13px] font-sans font-semibold uppercase tracking-[0.14em] text-on-brick transition-colors hover:bg-brick-dark"
+                    disabled={sending}
+                    className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded bg-brick px-8 py-4 font-sans text-[13px] font-semibold uppercase tracking-[0.14em] text-on-brick transition-colors hover:bg-brick-dark disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    Send Message
+                    <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-cream/30 blur-md group-hover:[animation:sheen_0.9s_ease]" />
+                    {sending ? (
+                      <><Loader2 size={16} className="animate-spin" /> Sending</>
+                    ) : (
+                      <><Send size={14} /> Send Message <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" /></>
+                    )}
                   </button>
                 </form>
               )}
