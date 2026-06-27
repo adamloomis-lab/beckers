@@ -13,7 +13,7 @@ export default function Privacy() {
       <h2>Information We Collect</h2>
       <p>
         We only collect the information you choose to give us. When you submit our contact or
-        employment form, we collect the details you enter — such as your name, email address, phone
+        employment form, we collect the details you enter, such as your name, email address, phone
         number, the subject of your inquiry, and your message. We do not require you to create an
         account or provide payment information on this website.
       </p>
@@ -44,7 +44,7 @@ export default function Privacy() {
       <h2>Third-Party Links</h2>
       <p>
         Our website links to outside services such as Facebook, Yelp, and Google Maps. We are not
-        responsible for the privacy practices of those sites — please review their policies
+        responsible for the privacy practices of those sites. Please review their policies
         separately.
       </p>
 

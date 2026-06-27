@@ -134,7 +134,7 @@ export default function Careers() {
             <div className="text-center">
               <h2 className="font-display text-headline-lg text-ink">Apply to Join Us</h2>
               <p className="mt-3 text-body-md text-ink-soft">
-                Tell us a little about yourself and we&rsquo;ll be in touch soon — or stop in and ask
+                Tell us a little about yourself and we&rsquo;ll be in touch soon, or stop in and ask
                 for a manager.
               </p>
             </div>
@@ -156,7 +156,7 @@ export default function Careers() {
                 <p className="max-w-md text-body-md text-ink-soft">
                   Thanks for wanting to join the Becker&rsquo;s crew. We got your application and
                   we&rsquo;ll be in touch real soon. Honest work, good tips, and a team that has your
-                  back — we can&rsquo;t wait to meet you. Want to say hi sooner? Stop in and ask for a
+                  back. We can&rsquo;t wait to meet you. Want to say hi sooner? Stop in and ask for a
                   manager, or give us a call.
                 </p>
                 <a

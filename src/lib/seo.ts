@@ -184,7 +184,7 @@ export function getPageMeta(rawPath: string): PageMeta {
     case '/':
       return {
         title: "Becker's Restaurant | Homestyle Cooking in Ashtabula, OH",
-        description: `${company.shortBlurb} Open Mon–Sat 7am–9pm, Sun 7am–4pm. Call ${company.phone}.`,
+        description: `${company.shortBlurb} Open Mon-Sat 7am-9pm, Sun 7am-4pm. Call ${company.phone}.`,
         canonical: pageUrl('/'),
         ogImage,
         jsonLd: [restaurantSchema(), websiteSchema(), faqSchema()],
@@ -193,7 +193,7 @@ export function getPageMeta(rawPath: string): PageMeta {
       return {
         title: "Menu | Becker's Restaurant, Ashtabula OH",
         description:
-          'Breakfast served all day, hearty lunches, and homestyle dinner classics, plus a full bar and a fresh in-house bakery. See the full Becker’s menu — favorites, omelets, burgers, sandwiches, dinners, seafood, and a 55+ menu.',
+          'Breakfast served all day, hearty lunches, and homestyle dinner classics, plus a full bar and a fresh in-house bakery. See the full Becker’s menu: favorites, omelets, burgers, sandwiches, dinners, seafood, and a 55+ menu.',
         canonical: pageUrl('/menu'),
         ogImage: abs('/images/gallery-breakfast-burger.jpg'),
         jsonLd: [
@@ -209,7 +209,7 @@ export function getPageMeta(rawPath: string): PageMeta {
       return {
         title: "Catering | Becker's Restaurant, Ashtabula OH",
         description:
-          'Catering for parties, work events, showers, reunions, and memorial meals across Ashtabula County. We bring the food — you enjoy the day. Call (440) 993-1131.',
+          'Catering for parties, work events, showers, reunions, and memorial meals across Ashtabula County. We bring the food, you enjoy the day. Call (440) 993-1131.',
         canonical: pageUrl('/catering'),
         ogImage: abs('/images/catering-roast.jpg'),
         jsonLd: [

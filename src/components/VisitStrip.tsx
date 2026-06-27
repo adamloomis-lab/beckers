@@ -62,9 +62,9 @@ export default function VisitStrip() {
           <span>
             <span className={labelCls}>{today ? `Open Today · ${today.day}` : 'Open Seven Days a Week'}</span>
             <span className="mt-1 block font-display text-[19px] font-semibold leading-tight text-cream">
-              {today ? today.time : '7:00 am – 9:00 pm'}
+              {today ? today.time : '7:00 am - 9:00 pm'}
             </span>
-            <span className="block text-[14px] text-cream-dim">Mon–Sat 7a–9p · Sun 7a–4p</span>
+            <span className="block text-[14px] text-cream-dim">Mon-Sat 7a-9p · Sun 7a-4p</span>
           </span>
         </div>
       </div>

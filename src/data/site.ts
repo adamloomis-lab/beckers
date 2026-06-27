@@ -35,18 +35,18 @@ export const company = {
 // Hours. Mon–Sat 7a–9p, Sun 7a–4p. dow matches Date.getDay() (0=Sun).
 // ---------------------------------------------------------------------------
 export const hours = [
-  { day: 'Sunday', short: 'Sun', dow: 0, time: '7:00 am – 4:00 pm' },
-  { day: 'Monday', short: 'Mon', dow: 1, time: '7:00 am – 9:00 pm' },
-  { day: 'Tuesday', short: 'Tue', dow: 2, time: '7:00 am – 9:00 pm' },
-  { day: 'Wednesday', short: 'Wed', dow: 3, time: '7:00 am – 9:00 pm' },
-  { day: 'Thursday', short: 'Thu', dow: 4, time: '7:00 am – 9:00 pm' },
-  { day: 'Friday', short: 'Fri', dow: 5, time: '7:00 am – 9:00 pm' },
-  { day: 'Saturday', short: 'Sat', dow: 6, time: '7:00 am – 9:00 pm' },
+  { day: 'Sunday', short: 'Sun', dow: 0, time: '7:00 am - 4:00 pm' },
+  { day: 'Monday', short: 'Mon', dow: 1, time: '7:00 am - 9:00 pm' },
+  { day: 'Tuesday', short: 'Tue', dow: 2, time: '7:00 am - 9:00 pm' },
+  { day: 'Wednesday', short: 'Wed', dow: 3, time: '7:00 am - 9:00 pm' },
+  { day: 'Thursday', short: 'Thu', dow: 4, time: '7:00 am - 9:00 pm' },
+  { day: 'Friday', short: 'Fri', dow: 5, time: '7:00 am - 9:00 pm' },
+  { day: 'Saturday', short: 'Sat', dow: 6, time: '7:00 am - 9:00 pm' },
 ]
 
 export const hoursCompact = [
-  { day: 'Mon – Sat', time: '7:00 am – 9:00 pm' },
-  { day: 'Sunday', time: '7:00 am – 4:00 pm' },
+  { day: 'Mon - Sat', time: '7:00 am - 9:00 pm' },
+  { day: 'Sunday', time: '7:00 am - 4:00 pm' },
 ]
 
 // Schema.org openingHoursSpecification
@@ -375,11 +375,11 @@ export const menuSections: MenuSection[] = [
   {
     id: 'bakery-bar',
     title: 'Bakery, Desserts & Bar',
-    tagline: 'Save room — and grab a drink.',
+    tagline: 'Save room, and grab a drink.',
     groups: [
       {
         title: 'Fresh-Baked',
-        note: 'Baked in-house daily. Grab a few to take home — ask about today’s selection.',
+        note: 'Baked in-house daily. Grab a few to take home. Ask about today’s selection.',
         items: [
           {
             name: 'Mammoth Muffins',
@@ -401,7 +401,7 @@ export const menuSections: MenuSection[] = [
         note: 'Becker’s has a full bar. Must be 21+ with valid ID.',
         items: [
           { name: 'Margaritas', desc: 'Hand-shaken, on the rocks or frozen.' },
-          { name: 'Specialty Cocktails', desc: 'Rotating house drinks — ask your bartender.' },
+          { name: 'Specialty Cocktails', desc: 'Rotating house drinks. Ask your bartender.' },
           { name: 'Beer', desc: 'Domestic, import & craft.' },
           { name: 'Wine', desc: 'By the glass or the bottle.' },
         ],
@@ -465,7 +465,7 @@ export const perks = [
   'Steady hours and fair pay',
   'Meals on shift',
   'A team that has your back',
-  'Real growth — most of our managers started on the floor',
+  'Real growth. Most of our managers started on the floor',
 ]
 
 // ---------------------------------------------------------------------------
@@ -491,7 +491,7 @@ export const reviews = [
   {
     name: 'James Hartman',
     quote:
-      'Made reservations and it was great even with people waiting on a Saturday — the food and service were great.',
+      'Made reservations and it was great even with people waiting on a Saturday. The food and service were great.',
   },
   {
     name: 'Bruce R.',
@@ -519,7 +519,7 @@ export const faqs = [
   },
   {
     q: 'Do you host special events?',
-    a: 'Yes — we host special events throughout the year, including our popular Murder Mystery dinner theater. Follow us on Facebook for the latest schedule.',
+    a: 'Yes. We host special events throughout the year, including our popular Murder Mystery dinner theater. Follow us on Facebook for the latest schedule.',
   },
   {
     q: 'Do you cater events?',
@@ -527,7 +527,7 @@ export const faqs = [
   },
   {
     q: 'Do you have a full bar?',
-    a: 'Yes — Becker’s has a full bar with margaritas, specialty cocktails, beer, and wine (21+ with valid ID). We also bake fresh muffins, cookies, and cinnamon rolls in-house every day.',
+    a: 'Yes. Becker’s has a full bar with margaritas, specialty cocktails, beer, and wine (21+ with valid ID). We also bake fresh muffins, cookies, and cinnamon rolls in-house every day.',
   },
   {
     q: 'Can I reserve the private room?',

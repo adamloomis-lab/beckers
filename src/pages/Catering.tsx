@@ -87,7 +87,7 @@ export default function Catering() {
         <div className="container-x max-w-3xl text-center">
           <p className="text-body-lg text-ink-soft">
             Whether it&rsquo;s twelve people or two hundred, we cook it like we&rsquo;d cook it for our
-            own family. Drop-off, buffet-style, or full setup — we work around your day, not the other
+            own family. Drop-off, buffet-style, or full setup. We work around your day, not the other
             way around.
           </p>
         </div>
@@ -132,7 +132,7 @@ export default function Catering() {
               align="left"
               eyebrow="Private Events"
               title="Private Room at Becker's"
-              intro="Birthdays, showers, work lunches, and celebrations of every kind. Our private room makes any occasion feel a little more special — and we handle the food, the setup, and the cleanup."
+              intro="Birthdays, showers, work lunches, and celebrations of every kind. Our private room makes any occasion feel a little more special, and we handle the food, the setup, and the cleanup."
             />
             <div className="mt-8 flex flex-wrap gap-4">
               <Button href="#quote">Reserve the Room</Button>
@@ -187,8 +187,8 @@ export default function Catering() {
                 </p>
                 <p className="max-w-md text-body-md text-ink-soft">
                   Your catering request is in. We&rsquo;ll reach out the same day, most days, to talk
-                  menu, headcount, and timing. Need an answer fast? Give us a call —
-                  we&rsquo;d love to feed your crew.
+                  menu, headcount, and timing. Need an answer fast? Give us a call.
+                  We&rsquo;d love to feed your crew.
                 </p>
                 <a
                   href={company.phoneHref}

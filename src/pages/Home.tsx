@@ -43,7 +43,7 @@ export default function Home() {
               <br className="hidden sm:block" /> Real <span className="italic font-semibold text-gold-light">Ashtabula.</span>
             </h1>
             <p className="rise rise-3 mt-6 max-w-xl text-body-lg text-cream-dim">
-              Three meals a day, seven days a week — homestyle cooking and big portions.
+              Three meals a day, seven days a week. Homestyle cooking and big portions.
             </p>
             <div className="rise rise-4 mt-8">
               <HeroChips />
@@ -160,7 +160,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="Fresh From the Kitchen"
             title="A Little Taste of Becker's"
-            intro="Big portions, real cooking, a full bar, and a case full of fresh-baked muffins, cookies, and cinnamon rolls — here's a peek at what's coming off the line."
+            intro="Big portions, real cooking, a full bar, and a case full of fresh-baked muffins, cookies, and cinnamon rolls. Here's a peek at what's coming off the line."
           />
           <div className="reveal-group mt-14 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {foodGallery.map((p) => (
@@ -263,7 +263,7 @@ export default function Home() {
               align="left"
               eyebrow="Come See Us"
               title="Real Comfort, Right in Ashtabula"
-              intro="Whether it's a sunrise breakfast, a working lunch, or dinner with the family — we'll have a seat ready."
+              intro="Whether it's a sunrise breakfast, a working lunch, or dinner with the family, we'll have a seat ready."
             />
             <ul className="mt-8 space-y-5 text-body-md">
               <li className="flex items-start gap-4">

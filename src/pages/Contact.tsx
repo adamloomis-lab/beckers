@@ -68,7 +68,7 @@ export default function Contact() {
         slides={contactHero}
         eyebrow="We're Easy to Reach"
         title="Let's Talk."
-        subtitle="Reservations, catering questions, private room bookings, or just saying hi — we're always glad to hear from you."
+        subtitle="Reservations, catering questions, private room bookings, or just saying hi. We're always glad to hear from you."
       />
 
       {/* ---------- DETAILS + FORM ---------- */}
@@ -161,7 +161,7 @@ export default function Contact() {
                     {firstName ? `Thank You, ${firstName}!` : 'Thank You!'}
                   </p>
                   <p className="max-w-md text-body-md text-ink-soft">
-                    Your message just landed in our inbox here at Becker&rsquo;s — and a real person
+                    Your message just landed in our inbox here at Becker&rsquo;s, and a real person
                     will read it, not a robot. We&rsquo;ll get back to you the same day, most days.
                     Can&rsquo;t wait? Give us a ring; there&rsquo;s almost always someone by the phone.
                   </p>
